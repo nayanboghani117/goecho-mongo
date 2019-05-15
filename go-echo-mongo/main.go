@@ -3,15 +3,14 @@ package main
 import (
 	"github.com/labstack/echo"
 	echoSwagger "github.com/swaggo/echo-swagger"
-	"go-echo-mongo/api/handler"
-	_ "go-echo-mongo/docs"
-	"go-echo-mongo/mware"
+	"go-echo-mongo/go-echo-mongo/api/handler"
+	_ "go-echo-mongo/go-echo-mongo/docs"
+	"go-echo-mongo/go-echo-mongo/mware"
 	"gopkg.in/mgo.v2"
 	"log"
 )
 
 func main() {
-
 
 	// @title Swagger Example API
 	// @version 1.0
@@ -27,8 +26,8 @@ func main() {
 
 	// @host localhost:8080
 	// @BasePath /v1
-
 	e := echo.New()
+
 	mware.Mainmiddleware(e)
 
 	db, err := mgo.Dial("mongodb://localhost:27017")
@@ -46,22 +45,26 @@ func main() {
 
 	h := &handler.Handler{DB: db}
 
-	g := e.Group("/v1")
-	user := g.Group("/user")
-	user.GET("/getuserbyid/:id", handler.GetUserByID(h))
-	user.POST("/createuser", handler.CreateUser(h))
-	user.PUT("/updateuser/:id", handler.UpdateUser(h))
-	user.DELETE("/deleteuser/:id", handler.DeleteUser(h))
-	user.POST("/signin",handler.SignIn(h))
-	user.GET("/getusers",handler.GetUsers(h))
-	e.GET("/private", handler.Private, mware.IsLoggedIn)
-	e.GET("/admin", handler.Private, mware.IsLoggedIn,mware.IsAdmin)
+	v1 := e.Group("/v1")
+	{
+		user := v1.Group("/users")
+		{
+			user.GET("/:id", handler.GetUserByID(h))
+			user.GET("/", handler.GetUsers(h))
+			user.POST("/", handler.CreateUser(h))
+			user.POST("/login", handler.SignIn(h))
+			user.PUT("/:id", handler.UpdateUser(h))
+			user.DELETE("/:id", handler.DeleteUser(h))
+		}
+
+
+		auth := v1.Group("/auth")
+		{
+			auth.GET("/userauth", handler.Private, mware.IsLoggedIn)
+			auth.GET("/admin", handler.Private, mware.IsLoggedIn,mware.IsAdmin)
+		}
+	}
 
 	e.GET("/swagger/*any", echoSwagger.WrapHandler)
-
-	//url := echoSwagger.URL("http://localhost:8080/swagger/doc.json") //The url pointing to API definition
-	//e.GET("/swagger/*", echoSwagger.EchoWrapHandler(url))
-
 	e.Logger.Fatal(e.Start(":8080"))
-
 }

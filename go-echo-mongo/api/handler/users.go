@@ -8,15 +8,15 @@ import (
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/labstack/echo"
-	"go-echo-mongo/model"
+	"go-echo-mongo/go-echo-mongo/model"
 
 	"net/http"
 )
 
-// createUser godoc
-// @Summary Add a user
+// Create User godoc
+// @Summary Create a user
 // @Description add by json user
-// @Tags user
+// @Tags users
 // @Accept  json
 // @Produce  json
 // @Param user body model.User true "Add user"
@@ -24,7 +24,7 @@ import (
 // @Failure 400 {string} string "ok"
 // @Failure 404 {string} string "ok"
 // @Failure 500 {string} string "ok"
-// @Router /user/createuser [post]
+// @Router /users [post]
 func CreateUser(h *Handler) echo.HandlerFunc {
 	return func(c echo.Context) error {
 
@@ -45,18 +45,19 @@ func CreateUser(h *Handler) echo.HandlerFunc {
 	}
 }
 
-// updateUser godoc
-// @Summary update a user
+// Update User godoc
+// @Summary Update a specific user
 // @Description  update user by json
-// @Tags user
+// @Tags users
 // @Accept  json
 // @Produce  json
 // @Param id path string true "User ID"
+// @Param user body model.User true "Update user"
 // @Success 200 {object} model.User
 // @Failure 400 {string} string "ok"
 // @Failure 404 {string} string "ok"
 // @Failure 500 {string} string "ok"
-// @Router /user/updateuser/{id} [put]
+// @Router /users/{id} [put]
 func UpdateUser(h *Handler) echo.HandlerFunc {
 
 	return func(c echo.Context) error {
@@ -80,10 +81,10 @@ func UpdateUser(h *Handler) echo.HandlerFunc {
 
 }
 
-// deleteuserbyid godoc
-// @Summary Delete a user
+// Delete User godoc
+// @Summary Delete a specific user
 // @Description delete user by ID
-// @Tags user
+// @Tags users
 // @Accept  json,xml
 // @Produce  json,xml
 // @Param id path string true "User ID"
@@ -91,7 +92,7 @@ func UpdateUser(h *Handler) echo.HandlerFunc {
 // @Failure 400 {string} string "ok"
 // @Failure 404 {string} string "ok"
 // @Failure 500 {string} string "ok"
-// @Router /user/deleteuser/{id} [delete]
+// @Router /users/{id} [delete]
 func DeleteUser(h *Handler) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		id := c.Param("id")
@@ -109,6 +110,17 @@ func DeleteUser(h *Handler) echo.HandlerFunc {
 	}
 }
 
+// Get users godoc
+// @Summary Returns a list of Users
+// @Description get user by ID
+// @Tags users
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} model.Users
+// @Failure 400 {string} string "ok"
+// @Failure 404 {string} string "ok"
+// @Failure 500 {string} string "ok"
+// @Router /users/ [get]
 func GetUsers(h *Handler) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		db := h.DB.Clone()
@@ -123,10 +135,10 @@ func GetUsers(h *Handler) echo.HandlerFunc {
 }
 
 
-// getuserbyid godoc
-// @Summary Show a user
+// Get User godoc
+// @Summary Retrun a specific user
 // @Description get user by ID
-// @Tags user
+// @Tags users
 // @Accept  json
 // @Produce  json
 // @Param id path string true "User ID"
@@ -134,7 +146,7 @@ func GetUsers(h *Handler) echo.HandlerFunc {
 // @Failure 400 {string} string "ok"
 // @Failure 404 {string} string "ok"
 // @Failure 500 {string} string "ok"
-// @Router /user/getuserbyid/{id} [get]
+// @Router /users/{id} [get]
 func GetUserByID(h *Handler) echo.HandlerFunc{
 	return func(c echo.Context) error {
 		id := c.Param("id")
@@ -152,6 +164,19 @@ func GetUserByID(h *Handler) echo.HandlerFunc{
 	}
 }
 
+// User login godoc
+// @Summary Logs user into the system
+// @Description get user by ID
+// @Tags users
+// @Accept  json
+// @Produce  json
+// @Param username body model.user.email true "User Name"
+// @Param password body model.user.password true"User Password"
+// @Success 200 {object} model.User
+// @Failure 400 {string} string "ok"
+// @Failure 404 {string} string "ok"
+// @Failure 500 {string} string "ok"
+// @Router /login [get]
 func SignIn(h *Handler) echo.HandlerFunc {
 
 	return func(c echo.Context) (err error) {

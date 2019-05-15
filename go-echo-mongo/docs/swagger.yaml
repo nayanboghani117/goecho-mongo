@@ -15,6 +15,13 @@ definitions:
       token:
         type: string
     type: object
+  model.Users:
+    properties:
+      users:
+        items:
+          $ref: '#/definitions/model.User'
+        type: array
+    type: object
 host: localhost:8080
 info:
   contact:
@@ -29,7 +36,7 @@ info:
   title: Swagger Example API
   version: "1.0"
 paths:
-  /user/createuser:
+  /users:
     post:
       consumes:
       - application/json
@@ -62,10 +69,38 @@ paths:
           description: ok
           schema:
             type: string
-      summary: Add a user
+      summary: Create a user
       tags:
-      - user
-  /user/deleteuser/{id}:
+      - users
+  /users/:
+    get:
+      consumes:
+      - application/json
+      description: get user by ID
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Users'
+            type: object
+        "400":
+          description: ok
+          schema:
+            type: string
+        "404":
+          description: ok
+          schema:
+            type: string
+        "500":
+          description: ok
+          schema:
+            type: string
+      summary: Returns a list of Users
+      tags:
+      - users
+  /users/{id}:
     delete:
       consumes:
       - application/json
@@ -97,10 +132,9 @@ paths:
           description: ok
           schema:
             type: string
-      summary: Delete a user
+      summary: Delete a specific user
       tags:
-      - user
-  /user/getuserbyid/{id}:
+      - users
     get:
       consumes:
       - application/json
@@ -131,10 +165,9 @@ paths:
           description: ok
           schema:
             type: string
-      summary: Show a user
+      summary: Retrun a specific user
       tags:
-      - user
-  /user/updateuser/{id}:
+      - users
     put:
       consumes:
       - application/json
@@ -145,6 +178,13 @@ paths:
         name: id
         required: true
         type: string
+      - description: Update user
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/model.User'
+          type: object
       produces:
       - application/json
       responses:
@@ -165,7 +205,7 @@ paths:
           description: ok
           schema:
             type: string
-      summary: update a user
+      summary: Update a specific user
       tags:
-      - user
+      - users
 swagger: "2.0"

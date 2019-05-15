@@ -9,9 +9,22 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/labstack/echo"
 	"go-echo-mongo/model"
+
 	"net/http"
 )
 
+// createUser godoc
+// @Summary Add a user
+// @Description add by json user
+// @Tags user
+// @Accept  json
+// @Produce  json
+// @Param user body model.User true "Add user"
+// @Success 200 {object} model.User
+// @Failure 400 {string} string "ok"
+// @Failure 404 {string} string "ok"
+// @Failure 500 {string} string "ok"
+// @Router /user/createuser [post]
 func CreateUser(h *Handler) echo.HandlerFunc {
 	return func(c echo.Context) error {
 
@@ -22,7 +35,6 @@ func CreateUser(h *Handler) echo.HandlerFunc {
 		if u.Email == "" || u.PassWord == "" {
 			return &echo.HTTPError{Code: http.StatusBadRequest, Message: "invalid email or password"}
 		}
-		// Save user
 		db := h.DB.Clone()
 		defer db.Close()
 		if err := db.DB("demo").C("user").Insert(u); err != nil {
@@ -33,6 +45,18 @@ func CreateUser(h *Handler) echo.HandlerFunc {
 	}
 }
 
+// updateUser godoc
+// @Summary update a user
+// @Description  update user by json
+// @Tags user
+// @Accept  json
+// @Produce  json
+// @Param id path string true "User ID"
+// @Success 200 {object} model.User
+// @Failure 400 {string} string "ok"
+// @Failure 404 {string} string "ok"
+// @Failure 500 {string} string "ok"
+// @Router /user/updateuser/{id} [put]
 func UpdateUser(h *Handler) echo.HandlerFunc {
 
 	return func(c echo.Context) error {
@@ -56,6 +80,18 @@ func UpdateUser(h *Handler) echo.HandlerFunc {
 
 }
 
+// deleteuserbyid godoc
+// @Summary Delete a user
+// @Description delete user by ID
+// @Tags user
+// @Accept  json,xml
+// @Produce  json,xml
+// @Param id path string true "User ID"
+// @Success 200 {string} string "ok"
+// @Failure 400 {string} string "ok"
+// @Failure 404 {string} string "ok"
+// @Failure 500 {string} string "ok"
+// @Router /user/deleteuser/{id} [delete]
 func DeleteUser(h *Handler) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		id := c.Param("id")
@@ -87,6 +123,18 @@ func GetUsers(h *Handler) echo.HandlerFunc {
 }
 
 
+// getuserbyid godoc
+// @Summary Show a user
+// @Description get user by ID
+// @Tags user
+// @Accept  json
+// @Produce  json
+// @Param id path string true "User ID"
+// @Success 200 {object} model.User
+// @Failure 400 {string} string "ok"
+// @Failure 404 {string} string "ok"
+// @Failure 500 {string} string "ok"
+// @Router /user/getuserbyid/{id} [get]
 func GetUserByID(h *Handler) echo.HandlerFunc{
 	return func(c echo.Context) error {
 		id := c.Param("id")
@@ -123,15 +171,13 @@ func SignIn(h *Handler) echo.HandlerFunc {
 			return
 		}
 
-		// JWT token
 		token := jwt.New(jwt.SigningMethodHS256)
 
-		// Set claims
 		claims := token.Claims.(jwt.MapClaims)
-		claims["id"] = u.ID
+		claims["name"] = u.FirstName
+		claims["admin"] = true
 		claims["exp"] = time.Now().Add(time.Hour * 72).Unix()
 
-		// Generate encoded token and send it as response
 		u.Token, err = token.SignedString([]byte(Key))
 		if err != nil {
 			return err
@@ -145,6 +191,6 @@ func SignIn(h *Handler) echo.HandlerFunc {
 func Private(c echo.Context) error {
 	user := c.Get("user").(*jwt.Token)
 	claims := user.Claims.(jwt.MapClaims)
-	name := claims["id"].(string)
+	name := claims["name"].(string)
 	return c.String(http.StatusOK, "Welcome "+name+"!")
 }

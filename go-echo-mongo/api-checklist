@@ -19,7 +19,7 @@ MODELS
 3) how to write DB models
 4) naming convention
 5) logger equivalent
-6) environment variables
+6) environment variables 
 7) JWT 
 8) API gateway - try AWS 
 9) Setting up a authenticaton server
@@ -32,6 +32,7 @@ MODELS
 16) rate limiting 
 17) how to use bitbucket
 18) how to setup a code pipeline using Circle CI
+
 19) http2
 20) GRPC
 21) Protobuf

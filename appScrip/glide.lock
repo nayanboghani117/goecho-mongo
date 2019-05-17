@@ -1,0 +1,88 @@
+hash: 35d339dae96b52720e9ed912668814dcbacb1a8115b3d821d5df08b0dec9b715
+updated: 2018-07-20T13:26:47.8092844+05:30
+imports:
+- name: github.com/BurntSushi/toml
+  version: a368813c5e648fee92e5f6c30e3944ff9d5e8895
+- name: github.com/dgrijalva/jwt-go
+  version: 06ea1031745cb8b3dab3f6a236daf2b0aa468b7e
+- name: github.com/fsnotify/fsnotify
+  version: c2828203cd70a50dcccfb2761f8b1f8ceef9a8e9
+- name: github.com/go-ozzo/ozzo-dbx
+  version: e984ee904f1b2df904d0b2e6b2ca5064c87c0409
+- name: github.com/go-ozzo/ozzo-routing
+  version: 64c302ed7fc6f94c03ac31d29ae3c86e6d900b08
+  subpackages:
+  - access
+  - auth
+  - content
+  - cors
+  - fault
+- name: github.com/go-ozzo/ozzo-validation
+  version: 9d6782aa52aad2ec5f3ea5af63b7dc4bc5192c40
+- name: github.com/golang/gddo
+  version: daffe1f90ec57f8ed69464f9094753fc6452e983
+  subpackages:
+  - httputil
+  - httputil/header
+- name: github.com/gorilla/mux
+  version: e3702bed27f0d39777b0b37b664b6280e8ef8fbf
+- name: github.com/hashicorp/hcl
+  version: 68e816d1c783414e79bc65b3994d9ab6b0a722ab
+  subpackages:
+  - hcl/ast
+  - hcl/parser
+  - hcl/scanner
+  - hcl/strconv
+  - hcl/token
+  - json/parser
+  - json/scanner
+  - json/token
+- name: github.com/lib/pq
+  version: 4dd446efc17690bc53e154025146f73203b18309
+  subpackages:
+  - oid
+- name: github.com/magiconair/properties
+  version: c2353362d570a7bfa228149c62842019201cfb71
+- name: github.com/mitchellh/mapstructure
+  version: f15292f7a699fcc1a38a80977f80a046874ba8ac
+- name: github.com/Sirupsen/logrus
+  version: ba1b36c82c5e05c4f912a88eab0dcd91a171688f
+- name: github.com/spf13/afero
+  version: ee1bd8ee15a1306d1f9201acc41ef39cd9f99a1b
+  subpackages:
+  - mem
+- name: github.com/spf13/cast
+  version: 8965335b8c7107321228e3e3702cab9832751bac
+- name: github.com/spf13/jwalterweatherman
+  version: 7c0cea34c8ece3fbeb2b27ab9b59511d360fb394
+- name: github.com/spf13/pflag
+  version: 3ebe029320b2676d667ae88da602a5f854788a8a
+- name: github.com/spf13/viper
+  version: 346299ea79e446ebdddb834371ceba2e5926b732
+- name: github.com/stretchr/testify
+  version: f35b8ab0b5a2cef36673838d662e249dd9c94686
+- name: golang.org/x/net
+  version: d0887baf81f4598189d4e12a37c6da86f0bba4d0
+  subpackages:
+  - context
+- name: golang.org/x/sys
+  version: 2320a9c15898af1b1b24f99700d5c1e957f9d8cf
+  subpackages:
+  - unix
+- name: golang.org/x/text
+  version: 1cbadb444a806fd9430d14ad08967ed91da4fa0a
+  subpackages:
+  - secure/bidirule
+  - transform
+  - unicode/bidi
+  - unicode/norm
+- name: gopkg.in/mgo.v2
+  version: 9856a29383ce1c59f308dd1cf0363a79b5bef6b5
+  subpackages:
+  - bson
+  - internal/json
+  - internal/sasl
+  - internal/scram
+- name: gopkg.in/yaml.v2
+  version: eb3733d160e74a9c7e442f435eb3bea458e1d19f
+testImports: []

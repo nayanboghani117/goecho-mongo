@@ -1,2 +1,12 @@
-package: inventory
-import: []
+package: go-echo-mongo/store
+import:
+- package: github.com/Sirupsen/logrus
+- package: github.com/labstack/echo
+- package: github.com/spf13/viper
+- package: gopkg.in/mgo.v2
+  subpackages:
+  - bson
+- package: github.com/go-playground/validator
+  version: ~9.28.0
+- package: gopkg.in/go-playground/validator.v9
+  version: ~9.28.0

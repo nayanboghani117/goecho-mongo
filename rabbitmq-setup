@@ -1,0 +1,20 @@
+install rabbitmq (port - 5672)
+https://www.rabbitmq.com/install-debian.html
+
+rabbitmq
+wget -O - 'https://dl.bintray.com/rabbitmq/Keys/rabbitmq-release-signing-key.asc' | sudo apt-key add -
+echo "deb https://dl.bintray.com/rabbitmq/debian {distribution} main erlang" | sudo tee /etc/apt/sources.list.d/bintray.rabbitmq.list
+- ubuntu 18.04
+echo "deb https://dl.bintray.com/rabbitmq/debian bionic main erlang" | sudo tee /etc/apt/sources.list.d/bintray.rabbitmq.list
+- ubuntu 16.04
+echo "deb https://dl.bintray.com/rabbitmq/debian xenial main erlang" | sudo tee /etc/apt/sources.list.d/bintray.rabbitmq.list
+
+sudo apt-get update
+sudo apt-get install rabbitmq-server -y
+
+sudo systemctl enable rabbitmq-server
+sudo systemctl start rabbitmq-server
+
+sudo rabbitmqctl add_user admin 3Embed
+sudo rabbitmqctl set_user_tags admin administrator
+sudo rabbitmqctl set_permissions -p / admin ".*" ".*" ".*"

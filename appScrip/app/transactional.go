@@ -1,7 +1,7 @@
 package app
 
 import (
-	"github.com/go-ozzo/ozzo-routing"
+	routing "github.com/go-ozzo/ozzo-routing"
 	"github.com/go-ozzo/ozzo-routing/fault"
 	"gopkg.in/mgo.v2"
 )

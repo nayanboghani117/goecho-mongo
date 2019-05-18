@@ -39,21 +39,13 @@ import (
 	"appScrip/services/servicevideos"
 
 	"github.com/Sirupsen/logrus"
-	"github.com/go-ozzo/ozzo-routing"
+	routing "github.com/go-ozzo/ozzo-routing"
 	"github.com/go-ozzo/ozzo-routing/content"
 	"github.com/go-ozzo/ozzo-routing/cors"
 	_ "github.com/lib/pq"
 
 	"gopkg.in/mgo.v2"
 )
-
-//https://www.ribice.ba/swagger-golang/
-// var (
-// 	props          *properties.Properties
-// 	propertiesFile = flag.String("config", "config.properties", "the configuration file")
-
-// 	// SwaggerPath string
-// )
 
 func main() {
 	// load application configurations
@@ -69,22 +61,6 @@ func main() {
 	// create the logger
 	logger := logrus.New()
 
-	// var err error
-	// if props, err = properties.LoadFile(*propertiesFile, properties.UTF8); err != nil {
-	// 	panic(fmt.Errorf("[error] Unable to read properties:%v", err))
-	// }
-
-	// // connect to the database
-	// sessMng := connection.NewSessionManager(props.FilterPrefix("mongod."))
-	// defer sessMng.CloseAll()
-
-	// db, needclose, err := sessMng.Get(props.MustGet("mongod.use"))
-	// if err != nil {
-	// 	panic(fmt.Errorf("[error] Unable to CONNECT: %s", err))
-	// }
-	// if needclose {
-	// 	defer db.Close()
-	// }
 	db, err := mgo.Dial(app.Config.DSN) //dbx.MustOpen("postgres", app.Config.DSN)
 	if err != nil {
 		panic(err)

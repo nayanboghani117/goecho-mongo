@@ -3,7 +3,7 @@ package app
 import (
 	"fmt"
 
-	"github.com/go-ozzo/ozzo-validation"
+	validation "github.com/go-ozzo/ozzo-validation"
 	"github.com/spf13/viper"
 )
 
@@ -29,7 +29,7 @@ type appConfig struct {
 
 func (config appConfig) Validate() error {
 	return validation.ValidateStruct(&config,
-		validation.Field(&config.DSN, validation.Required),
+		validation.Field(&config.DSN, validate.Required),
 		validation.Field(&config.DBNAME, validation.Required),
 		validation.Field(&config.JWTSigningKey, validation.Required),
 		validation.Field(&config.JWTVerificationKey, validation.Required),

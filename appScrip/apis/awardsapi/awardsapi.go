@@ -7,7 +7,7 @@ import (
 
 	"gopkg.in/mgo.v2/bson"
 
-	"github.com/go-ozzo/ozzo-routing"
+	routing "github.com/go-ozzo/ozzo-routing"
 	"github.com/go-ozzo/ozzo-routing/auth"
 )
 

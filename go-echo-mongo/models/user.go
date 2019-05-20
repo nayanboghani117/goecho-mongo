@@ -1,6 +1,8 @@
 package model
 
-import "gopkg.in/mgo.v2/bson"
+import (
+	"gopkg.in/mgo.v2/bson"
+)
 
 // User example
 type User struct {
@@ -15,3 +17,12 @@ type User struct {
 type Users struct {
 	Users []User `json:"users" bson:"users"`
 }
+
+//func NewUser(email, password string) *User {
+//	p, _ := util.HashPassword(password)
+//	return &User{
+//		ID:       bson.NewObjectId(),
+//		Email:    email,
+//		PassWord: p,
+//	}
+//}

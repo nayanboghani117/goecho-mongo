@@ -1,14 +1,22 @@
 package main
 
 import (
+
 	"github.com/labstack/echo"
-	echoSwagger "github.com/swaggo/echo-swagger"
-	"go-echo-mongo/go-echo-mongo/api/handler"
-	_ "go-echo-mongo/go-echo-mongo/docs"
+	"go-echo-mongo/go-echo-mongo/apis/handler"
+	"go-echo-mongo/go-echo-mongo/apis/users"
 	"go-echo-mongo/go-echo-mongo/mware"
-	"gopkg.in/mgo.v2"
-	"log"
+
+
+	echoSwagger "github.com/swaggo/echo-swagger"
+	//"go-echo-mongo/go-echo-mongo/apis/handler"
+	//"go-echo-mongo/go-echo-mongo/apis/users"
+	_ "go-echo-mongo/go-echo-mongo/docs"
+
+	"go-echo-mongo/go-echo-mongo/config"
+
 )
+
 
 func main() {
 
@@ -30,40 +38,36 @@ func main() {
 
 	mware.Mainmiddleware(e)
 
-	db, err := mgo.Dial("mongodb://localhost:27017")
-	if err != nil {
-		e.Logger.Fatal(err)
-	}
+	config := config.LoadConfig()
 
-	if err = db.Copy().DB("demo").C("user").EnsureIndex(mgo.Index{
-		Key:    []string{"email"},
-		Unique: true,
-	}); err != nil {
-		log.Fatal(err)
-	}
+	// Database
+	db := mware.NewDB(config.App.DSN)
+	db.Init()
+	h := &handler.Handler{DB:db}
+	e.POST("/users", users.Post(h))
 
+	//h := &handler.Handler{DB: db}
 
-	h := &handler.Handler{DB: db}
-
-	v1 := e.Group("/v1")
-	{
-		user := v1.Group("/users")
-		{
-			user.GET("/:id", handler.GetUserByID(h))
-			user.GET("/", handler.GetUsers(h))
-			user.POST("/", handler.CreateUser(h))
-			user.POST("/login", handler.SignIn(h))
-			user.PUT("/:id", handler.UpdateUser(h))
-			user.DELETE("/:id", handler.DeleteUser(h))
-		}
-
-
-		auth := v1.Group("/auth")
-		{
-			auth.GET("/userauth", handler.Private, mware.IsLoggedIn)
-			auth.GET("/admin", handler.Private, mware.IsLoggedIn,mware.IsAdmin)
-		}
-	}
+	//
+	//v1 := e.Group("/v1")
+	//{
+	//	user := v1.Group("/users")
+	//	{
+	//		user.GET("/:id", users.GetUserByID(h))
+	//		user.GET("/", users.GetUsers(h))
+	//		user.POST("/", users.CreateUser(h))
+	//		user.POST("/login", users.SignIn(h))
+	//		user.PUT("/:id", users.UpdateUser(h))
+	//		user.DELETE("/:id", users.DeleteUser(h))
+	//	}
+	//
+	//
+	//	auth := v1.Group("/auth")
+	//	{
+	//		auth.GET("/userauth", users.Private, mware.IsLoggedIn)
+	//		auth.GET("/admin", users.Private, mware.IsLoggedIn,mware.IsAdmin)
+	//	}
+	//}
 
 	e.GET("/swagger/*any", echoSwagger.WrapHandler)
 	e.Logger.Fatal(e.Start(":8080"))

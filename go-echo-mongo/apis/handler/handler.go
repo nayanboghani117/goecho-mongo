@@ -1,11 +1,13 @@
 package handler
 
-import "gopkg.in/mgo.v2"
+import (
+	"go-echo-mongo/go-echo-mongo/mware"
+)
 
 type (
 
 	Handler struct {
-		DB *mgo.Session
+		DB mware.DB
 })
 
 
